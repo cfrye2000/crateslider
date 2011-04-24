@@ -1,6 +1,6 @@
-function parseNodes(nodes) { // takes a nodes array and turns it into a <ol>
+function parseNodes(nodes, idString) { // takes a nodes array and turns it into a <ol>
     var ul = document.createElement("ul");
-    ul.id = "slider1";
+    ul.id = idString;
     ul.className="slider1";
     for(var i=0; i<nodes.length; i++) {
         ul.appendChild(parseNode(nodes[i]));
