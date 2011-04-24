@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title></title>
+<script src="js/jquery-1.4.2.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+var myJSONObject;
+function parseNodes(nodes) { // takes a nodes array and turns it into a <ol>
+    var ul = document.createElement("ul");
+    for(var i=0; i<nodes.length; i++) {
+        ul.appendChild(parseNode(nodes[i]));
+    }
+    return ul;
+}
+
+function parseNode(node) { // takes a node object and turns it into a <li>
+    var li = document.createElement("LI");
+    li.innerHTML = node.doc.name;
+    li.className = node.class;
+    if(node.doc) li.appendChild(parseNodes(node.doc));
+    return li;
+}
+
+function getRootCategories(){
+	$.getJSON("http://crateandbarrel.couchone.com/category_categories/_all_docs?startkey=%220:0%22&endkey=%220:%5cu9999%22&include_docs=true&&callback=?",
+		function(data) {
+			alert(data.total_rows);
+			myJSONObject = data;
+		}
+	);
+}
+
+ $(document).ready(function(){
+	getRootCategories();
+});
+</script>
+</head>
+<body>
+    <input type="button" 
+    onclick="document.body.appendChild(parseNodes(myJSONObject.rows))"
+    value="go" />
+</body>
+</html>
