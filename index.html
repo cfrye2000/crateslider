@@ -4,32 +4,31 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
 <title>Untitled Document</title> 
 <link rel="stylesheet" type="text/css" href="js/bx_styles/bx_styles.css" />
+<link rel="stylesheet" type="text/css" href="main.css" />
 <script src="js/jquery-1.4.2.js" type="text/javascript"></script>
 <script src="js/jquery.bxSlider.min.js" type="text/javascript"></script>
+<script src="js/crateslider.js" type="text/javascript"></script>
 <script type="text/javascript">
+  var myJSONObject;
   $(document).ready(function(){
-    $('#slider1').bxSlider({
-    	infiniteLoop: false,
-    	hideControlOnEnd: true
-    });
+    $.getJSON("http://crateandbarrel.couchone.com/category_categories/_all_docs?startkey=%220:0%22&endkey=%220:%5cu9999%22&include_docs=true&&callback=?",
+		function(data) {
+			document.body.appendChild(parseNodes(data.rows));
+			$('#slider1').bxSlider({
+			    	infiniteLoop: false,
+			    	hideControlOnEnd: true,
+                                onNextSlide: function(currentSlide, totalSlides, currentSlideHTML){
+        				alert($(currentSlideHTML).attr("id"));
+					}
+			    	});
+		}
+	);
+    
+    
   });
 </script>
 </head>
 <body>
-<div id="slider" width="1">
-<ul id="slider1">
-  <li>
-    	One
-  </li>
-  <li>
-    <h2>hello i am the second header!</h2>
-    <p>and i am some more groovy body text.</p>
-  </li>
-  <li>
-    <h2>hello i am the third header!</h2>
-    <p>and i am some more groovy body text.</p>
-  </li>
-</ul>
 </div>
 </body>
 </html>
