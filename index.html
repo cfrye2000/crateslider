@@ -11,34 +11,7 @@
 <script type="text/javascript">
   var myJSONObject;
   $(document).ready(function(){
-    $.getJSON("http://crateandbarrel.couchone.com/category_categories/_all_docs?startkey=%220:0%22&endkey=%220:%5cu9999%22&include_docs=true&&callback=?",
-		function(data) {
-			$('body').append(parseNodes(data.rows, "slider1"));
-			$('#slider1').bxSlider({
-			    	infiniteLoop: false,
-			    	hideControlOnEnd: true,
-                    onNextSlide: function(currentSlide, totalSlides, currentSlideHTML){
-                        $.getJSON("http://crateandbarrel.couchone.com/category_categories/_all_docs?startkey=%22"+ $(currentSlideHTML).attr("id") +":0%22&endkey=%22"+ $(currentSlideHTML).attr("id") +":%5cu9999%22&include_docs=true&&callback=?",
-							function(data) {
-							    if ($("#slider2").length == 0){
-									$('body').append(parseNodes(data.rows,'slider2'));
-								} else {
-									$("#slider2").replaceWith(parseNodes(data.rows,'slider2'));
-								}
-								$('#slider2').bxSlider({
-								    	infiniteLoop: false,
-								    	hideControlOnEnd: true,
-					                        onNextSlide: function(currentSlide, totalSlides, currentSlideHTML){
-									        					alert($(currentSlideHTML).attr("id"));
-									 
-										       				}
-								});
-										       				
-							});
-					   
-		}
-  	});
-   });
+      addSlider(0,'slider1', 2);
    });
 </script>
 </head>

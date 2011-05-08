@@ -27,3 +27,32 @@ function getRootCategories(){
 		}
 	);
 }
+
+function addSlider(categoryId, sliderName, depth){
+    $.getJSON("http://crateandbarrel.couchone.com/category_categories/_all_docs?startkey=%22" + categoryId + ":0%22&endkey=%22"+ categoryId +":%5cu9999%22&include_docs=true&&callback=?",
+        function(data) {
+            if ($("#"+sliderName).length === 0) {
+                $('body').append(parseNodes(data.rows, sliderName));
+            } else {
+                $("bx-wrapper").remove();
+                $("#"+sliderName).replaceWith(parseNodes(data.rows, sliderName));
+            }
+            var slider =  $('#' + sliderName).bxSlider({
+                infiniteLoop: false,
+                hideControlOnEnd: true,
+                onNextSlide: function(currentSlide, totalSlides, currentSlideHTML){
+                    if (depth > 0){
+                        addSlider($(currentSlideHTML).attr("id"), sliderName + '1', depth-1);
+                    }
+                },
+                onPrevSlide: function(currentSlide, totalSlides, currentSlideHTML){
+                    if (depth > 0) {
+                        addSlider($(currentSlideHTML).attr("id"), sliderName + '1', depth-1);
+                    }
+                }
+            });
+            
+            
+        }
+    );       
+}
